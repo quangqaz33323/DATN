@@ -1,45 +1,41 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname } from '@/i18n/routing';
+import { useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 
 const LANGUAGES = {
   vi: {
-    code: 'vi' ,
+    code: 'vi' as const,
     name: 'Tiếng Việt',
     shortName: 'VI',
     flag: '🇻🇳'
   },
   en: {
-    code: 'en' ,
+    code: 'en' as const,
     name: 'English',
     shortName: 'EN',
     flag: '🇬🇧'
   }
 } as const;
 
+type LocaleType = 'vi' | 'en';
+
 export default function LanguageSwitcher({locale}: {locale: string}) {
 
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const changeLanguage = (newLocale: string) => {
+  const changeLanguage = (newLocale: LocaleType) => {
     if (locale === newLocale || isPending) return;
 
     startTransition(() => {
-  
-      const pathnameWithoutLocale = pathname.replace(`/${locale}`, '');
-      
-    
-      const newPath = `/${newLocale}${pathnameWithoutLocale}`;
-      
-    
       const search = searchParams.toString();
+      const newPath = `/${newLocale}${pathname}`;
       const fullPath = search ? `${newPath}?${search}` : newPath;
       
-      router.push(fullPath);
+      window.location.href = fullPath;
     });
   };
 
