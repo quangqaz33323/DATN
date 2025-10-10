@@ -1,14 +1,40 @@
 {
+  "common": {
+    "viewMore": "Xem thêm"
+  },
   "footer": {
-"copyright": "Bản quyền © 2025 QuangWoodcraft. Mọi quyền được bảo lưu.",
-   "bracelets": "Vòng tay",
-  "tablesAndChairs": "Bàn ghế",
-  "woodenStatues": "Tượng gỗ",
-  "woodenPaintings": "Tranh gỗ",
-  "home": "Trang chủ",
-  "privacyPolicy": "Chính sách bảo mật",
-  "becomeMember": "Trở thành hội viên",
-  "createStore": "Tạo cửa hàng",
-  "contact": "Liên hệ"
+    "intro": "Chào mừng đến với QuangWoodcraft — nơi hội tụ tinh hoa gỗ thủ công. Chúng tôi mang đến sự kết hợp giữa tay nghề truyền thống và thiết kế hiện đại, tạo nên vẻ đẹp tự nhiên cho không gian sống của bạn.",
+    "copyright": "Bản quyền © 2025 QuangWoodcraft. Mọi quyền được bảo lưu.",
+    "products": "Sản phẩm",
+    "bracelets": "Vòng tay",
+    "tablesAndChairs": "Bàn ghế",
+    "woodenStatues": "Tượng gỗ",
+    "woodenPaintings": "Tranh gỗ",
+    "website": "Website",
+    "home": "Trang chủ",
+    "privacyPolicy": "Chính sách bảo mật",
+    "becomeMember": "Trở thành hội viên",
+    "createStore": "Tạo cửa hàng",
+    "contact": "Liên hệ",
+    "phoneNumber": "Số điện thoại",
+    "email": "Email",
+    "address": "Địa chỉ",
+    "addressValue": "32 Hà Nội",
+    "emailValue": "quangaaq@gmail.com",
+    "phoneValue": "+84-212-456-7890"
+  },
+  "nav": {
+    "cart": "Giỏ hàng",
+    "plus": "Thêm",
+    "home": "Trang chủ",
+    "shop": "Shop",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập"
+  },
+  "banner": {
+    "claim": "Lấy 20% OFF lần đầu tiên!",
+    "claimOffer": "Lấy Offer",
+    "copied": "Coupon đã được sao chép!"
   }
 }

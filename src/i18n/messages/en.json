@@ -1,14 +1,40 @@
 {
+  "common": {
+    "viewMore": "View more"
+  },
   "footer": {
+    "intro": "Welcome to QuangWoodcraft — where fine woodcraft meets design. We blend traditional craftsmanship with modern style, bringing natural beauty to your living space.",
     "copyright": "Copyright © 2025 QuangWoodcraft. All rights reserved.",
-   "bracelets": "Bracelets",
-   "tablesAndChairs": "Tables & Chairs",
-   "woodenStatues": "Wooden Statues",
-   "woodenPaintings": "Wooden Paintings",
+    "products": "Products",
+    "bracelets": "Bracelets",
+    "tablesAndChairs": "Tables & Chairs",
+    "woodenStatues": "Wooden Statues",
+    "woodenPaintings": "Wooden Paintings",
+    "website": "Website",
     "home": "Home",
     "privacyPolicy": "Privacy Policy",
-    "BecomeMember": "Become a Member",
+    "becomeMember": "Become a Member",
     "createStore": "Create a Store",
-    "contact": "Contact"
+    "contact": "Contact",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "address": "Address",
+    "addressValue": "32 Hanoi",
+    "emailValue": "quangaaq@gmail.com",
+    "phoneValue": "+84-212-456-7890"
+  },
+  "nav": {
+    "cart": "Cart",
+    "plus": "Plus",
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login"
+  },
+  "banner": {
+    "claim": "Get 20% OFF on Your First Order!",
+    "claimOffer": "Claim Offer",
+    "copied": "Coupon copied to clipboard!"
   }
 }
