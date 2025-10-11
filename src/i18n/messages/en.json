@@ -1,6 +1,12 @@
 {
   "common": {
-    "viewMore": "View more"
+    "viewMore": "View more",
+    "addAddress": "Adding Address...",
+    "addNew": "Add New",
+    "address": "Address",
+    "saveAddress": "Save Address",
+    "bestSelling": "Best Selling",
+    "showTotalProduct": "Showing {productQuantity} of {totalQuantity} products"
   },
   "footer": {
     "intro": "Welcome to QuangWoodcraft — where fine woodcraft meets design. We blend traditional craftsmanship with modern style, bringing natural beauty to your living space.",
@@ -30,11 +36,26 @@
     "shop": "Shop",
     "about": "About",
     "contact": "Contact",
-    "login": "Login"
+    "login": "Login",
+    "searchPlaceholder": "Search for products..."
   },
   "banner": {
     "claim": "Get 20% OFF on Your First Order!",
     "claimOffer": "Claim Offer",
     "copied": "Coupon copied to clipboard!"
+  },
+  "hero": {
+    "new": "NEW",
+    "freeShipping": "Free shipping for orders over 1,000,000₫!",
+    "headline": "Art from wood — Elegance in every detail.",
+    "startingFrom": "Starting from",
+    "price": "490,000₫",
+    "exploreNow": "EXPLORE NOW",
+    "featuredProducts": "Featured Products",
+    "seeMore": "See more",
+    "discountTitle": "20% Off",
+    "mainAlt": "High-end wood product showcase",
+    "featuredAlt": "Featured wooden products",
+    "discountAlt": "Discounted items"
   }
 }

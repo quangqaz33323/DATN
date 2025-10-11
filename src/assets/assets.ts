@@ -56,7 +56,7 @@ export const dummyRatingsData = [
     rating: 4.5,
     review:
       "Chất lượng sản phẩm rất tốt, đường nét tinh xảo. Mình nhận hàng đúng như hình, mùi gỗ thơm nhẹ và cảm giác rất sang trọng. Sẽ tiếp tục ủng hộ cửa hàng!",
-    user: { name: "Nguyễn Văn An", image: profile_pic1 },
+    user: { name: "Nguyễn Văn An", image: profile_pic1.src },
     productId: "prod_1",
     createdAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
     updatedAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
@@ -67,7 +67,7 @@ export const dummyRatingsData = [
     rating: 5.0,
     review:
       "Sản phẩm quá tuyệt vời! Từ gói hàng đến chi tiết chạm khắc đều rất chuyên nghiệp. Rất đáng tiền!",
-    user: { name: "Trần Thị Hoa", image: profile_pic2 },
+    user: { name: "Trần Thị Hoa", image: profile_pic2.src },
     productId: "prod_2",
     createdAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
     updatedAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
@@ -78,7 +78,7 @@ export const dummyRatingsData = [
     rating: 4.2,
     review:
       "Tượng được chạm rất tinh tế, gỗ cứng và màu sắc đều đẹp. Đóng gói chắc chắn, giao hàng nhanh.",
-    user: { name: "Lê Minh Tuấn", image: profile_pic3 },
+    user: { name: "Lê Minh Tuấn", image: profile_pic3.src },
     productId: "prod_3",
     createdAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
     updatedAt: "Sat Jul 19 2025 14:51:25 GMT+0700",
@@ -94,9 +94,9 @@ export const dummyStoreData = {
     "Đồ Gỗ Hạnh Phúc chuyên cung cấp các sản phẩm đồ gỗ mỹ nghệ cao cấp — từ bàn ghế, tượng gỗ phong thủy đến đèn gỗ trang trí. Chúng tôi luôn đặt tâm huyết vào từng chi tiết để mang lại vẻ đẹp tự nhiên và sang trọng cho ngôi nhà của bạn.",
   username: "dogohanhphuc",
   address: "123 Nguyễn Văn Linh, P. Hòa Minh, Q. Liên Chiểu, Đà Nẵng",
-  status: "approved",
+  status: "approved" as const,
   isActive: true,
-  logo: happy_store,
+  logo: happy_store.src,
   email: "dogohanhphuc@example.com",
   contact: "+84 912345678",
   createdAt: "2025-09-04T09:04:16.189Z",
@@ -105,7 +105,7 @@ export const dummyStoreData = {
     id: "user_31dOriXqC4TATvc0brIhlYbwwc5",
     name: "Great Stack",
     email: "user.greatstack@gmail.com",
-    image: gs_logo,
+    image: gs_logo.src,
   },
 }
 
