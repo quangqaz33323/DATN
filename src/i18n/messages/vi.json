@@ -1,6 +1,12 @@
 {
   "common": {
-    "viewMore": "Xem thêm"
+    "viewMore": "Xem thêm",
+    "addAddress": "Đang thêm địa chỉ...",
+    "addNew": "Thêm mới",
+    "address": "Địa chỉ",
+    "saveAddress": "Lưu địa chỉ",
+    "bestSelling": "Sản phẩm bán chạy",
+    "showTotalProduct": "Hiển thị {productQuantity} trong {totalQuantity} sản phẩm"
   },
   "footer": {
     "intro": "Chào mừng đến với QuangWoodcraft — nơi hội tụ tinh hoa gỗ thủ công. Chúng tôi mang đến sự kết hợp giữa tay nghề truyền thống và thiết kế hiện đại, tạo nên vẻ đẹp tự nhiên cho không gian sống của bạn.",
@@ -30,11 +36,26 @@
     "shop": "Shop",
     "about": "Về chúng tôi",
     "contact": "Liên hệ",
-    "login": "Đăng nhập"
+    "login": "Đăng nhập",
+    "searchPlaceholder": "Tìm kiếm sản phẩm..."
   },
   "banner": {
     "claim": "Lấy 20% OFF lần đầu tiên!",
     "claimOffer": "Lấy Offer",
     "copied": "Coupon đã được sao chép!"
+  },
+  "hero": {
+    "new": "MỚI",
+    "freeShipping": "Miễn phí vận chuyển cho đơn trên 1.000.000₫!",
+    "headline": "Nghệ thuật từ gỗ — Sang trọng trong từng chi tiết.",
+    "startingFrom": "Bắt đầu chỉ từ",
+    "price": "490.000₫",
+    "exploreNow": "KHÁM PHÁ NGAY",
+    "featuredProducts": "Sản phẩm nổi bật",
+    "seeMore": "Xem thêm",
+    "discountTitle": "Ưu đãi 20%",
+    "mainAlt": "Mẫu sản phẩm gỗ cao cấp",
+    "featuredAlt": "Đồ gỗ nổi bật",
+    "discountAlt": "Sản phẩm giảm giá"
   }
 }
