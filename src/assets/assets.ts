@@ -1,7 +1,7 @@
 import gs_logo from "./logo.png"
 import happy_store from "./happy_store.webp"
 import upload_area from "./upload_area.svg"
-import hero_model_img from "./hero_model_img.png"
+import hero_model_img from "./hero_model_img1.png"
 import hero_product_img1 from "./hero_product_img1.webp"
 import hero_product_img2 from "./hero_product_img2.webp"
 import product_img1 from "./product_img1.webp"
@@ -174,6 +174,54 @@ export const productDummyData = [
     createdAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
     updatedAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
   },
+    {
+    id: "prod_5",
+    name: "Đồng hồ treo tường gỗ mun",
+    description:
+      "Đồng hồ gỗ mun thiết kế tối giản nhưng tinh tế. Kim loại sơn tĩnh điện kết hợp mặt gỗ tự nhiên, tạo điểm nhấn độc đáo cho không gian sống.",
+    mrp: 1800000,
+    price: 1490000,
+    images: [product_img7],
+    storeId: "seller_1",
+    inStock: true,
+    store: dummyStoreData,
+    category: "Đồng hồ gỗ",
+    rating: dummyRatingsData,
+    createdAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+    updatedAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+  },
+      {
+    id: "prod_6",
+    name: "Đồng hồ treo tường gỗ mun",
+    description:
+      "Đồng hồ gỗ mun thiết kế tối giản nhưng tinh tế. Kim loại sơn tĩnh điện kết hợp mặt gỗ tự nhiên, tạo điểm nhấn độc đáo cho không gian sống.",
+    mrp: 1800000,
+    price: 1490000,
+    images: [product_img8],
+    storeId: "seller_1",
+    inStock: true,
+    store: dummyStoreData,
+    category: "Đồng hồ gỗ",
+    rating: dummyRatingsData,
+    createdAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+    updatedAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+  },
+        {
+    id: "prod_7",
+    name: "Đồng hồ treo tường gỗ mun",
+    description:
+      "Đồng hồ gỗ mun thiết kế tối giản nhưng tinh tế. Kim loại sơn tĩnh điện kết hợp mặt gỗ tự nhiên, tạo điểm nhấn độc đáo cho không gian sống.",
+    mrp: 1800000,
+    price: 1490000,
+    images: [product_img9],
+    storeId: "seller_1",
+    inStock: true,
+    store: dummyStoreData,
+    category: "Đồng hồ gỗ",
+    rating: dummyRatingsData,
+    createdAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+    updatedAt: "Sat Jul 26 2025 14:51:25 GMT+0700",
+  },
 ]
 
 export const ourSpecsData = [
@@ -243,4 +291,132 @@ export const dummyUserData = {
   email: "demo@example.com",
   image: gs_logo,
   cart: {},
+}
+
+export const orderDummyData = [
+  {
+    id: "order_001",
+    total: 359.0,
+    status: "DELIVERED",
+    userId: "user_001",
+    storeId: "store_002",
+    addressId: "addr_001",
+    isPaid: true,
+    paymentMethod: "COD",
+    createdAt: "2025-08-22T09:15:03.929Z",
+    updatedAt: "2025-08-22T09:15:50.723Z",
+    isCouponUsed: true,
+    coupon: couponDummyData[0],
+    orderItems: [
+      {
+        orderId: "order_001",
+        productId: "prod_001",
+        quantity: 1,
+        price: 199,
+        product: productDummyData[0],
+      },
+      {
+        orderId: "order_001",
+        productId: "prod_002",
+        quantity: 2,
+        price: 80,
+        product: productDummyData[1],
+      },
+    ],
+    address: addressDummyData,
+    user: dummyUserData,
+  },
+  {
+    id: "order_002",
+    total: 540.5,
+    status: "DELIVERED",
+    userId: "user_001",
+    storeId: "store_001",
+    addressId: "addr_001",
+    isPaid: false,
+    paymentMethod: "COD",
+    createdAt: "2025-08-24T09:15:03.929Z",
+    updatedAt: "2025-08-24T09:15:52.535Z",
+    isCouponUsed: false,
+    coupon: couponDummyData[1],
+    orderItems: [
+      {
+        orderId: "order_002",
+        productId: "prod_003",
+        quantity: 1,
+        price: 259,
+        product: productDummyData[2],
+      },
+      {
+        orderId: "order_002",
+        productId: "prod_004",
+        quantity: 2,
+        price: 140,
+        product: productDummyData[3],
+      },
+    ],
+    address: addressDummyData,
+    user: dummyUserData,
+  },
+]
+
+export const storesDummyData = [
+  {
+    id: "store_001",
+    userId: "user_002",
+    name: "Quang Woodcraft",
+    description:
+      "Quang Woodcraft chuyên sản xuất và cung cấp các sản phẩm gỗ thủ công tinh xảo — từ đồ nội thất, quà tặng, đến vật trang trí mang đậm phong cách truyền thống kết hợp hiện đại.",
+    username: "quangwoodcraft",
+    address: "123 Lê Lợi, Quận 1, TP. Hồ Chí Minh, Việt Nam",
+    status: "approved",
+    isActive: true,
+    logo: gs_logo,
+    email: "contact@quangwoodcraft.com",
+    contact: "+84 987 654 321",
+    createdAt: "2025-08-22T08:22:16.189Z",
+    updatedAt: "2025-08-22T08:22:44.273Z",
+    user: dummyUserData,
+  },
+  {
+    id: "store_002",
+    userId: "user_001",
+    name: "Mộc Studio",
+    description:
+      "Mộc Studio mang đến các thiết kế gỗ hiện đại, tinh tế — mỗi sản phẩm là một tác phẩm nghệ thuật được tạo nên từ đôi tay khéo léo của người thợ Việt.",
+    username: "mocstudio",
+    address: "21 Nguyễn Huệ, TP. Đà Nẵng, Việt Nam",
+    status: "approved",
+    isActive: true,
+    logo: happy_store,
+    email: "mocstudio@example.com",
+    contact: "+84 934 123 456",
+    createdAt: "2025-08-22T08:34:15.155Z",
+    updatedAt: "2025-08-22T08:34:47.162Z",
+    user: dummyUserData,
+  },
+]
+
+export const dummyAdminDashboardData = {
+  orders: 8,
+  stores: 2,
+  products: 12,
+  revenue: "899.40",
+  allOrders: [
+    { createdAt: "2025-08-20T08:46:58.239Z", total: 145.6 },
+    { createdAt: "2025-08-22T08:45:59.587Z", total: 54.4 },
+    { createdAt: "2025-08-23T09:15:03.929Z", total: 214.2 },
+    { createdAt: "2025-08-23T09:14:35.923Z", total: 421.6 },
+    { createdAt: "2025-08-24T11:56:29.713Z", total: 36.1 },
+    { createdAt: "2025-08-25T11:44:29.713Z", total: 26.1 },
+    { createdAt: "2025-08-26T10:30:29.713Z", total: 110.1 },
+    { createdAt: "2025-08-27T11:00:29.713Z", total: 95.1 },
+  ],
+}
+
+export const dummyStoreDashboardData = {
+  ratings: dummyRatingsData,
+  totalOrders: 5,
+  totalEarnings: 1240,
+  totalProducts: 7,
 }

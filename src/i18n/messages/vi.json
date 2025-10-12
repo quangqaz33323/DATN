@@ -6,6 +6,7 @@
     "address": "Địa chỉ",
     "saveAddress": "Lưu địa chỉ",
     "bestSelling": "Sản phẩm bán chạy",
+    "latestProducts": "Sản phẩm mới",
     "showTotalProduct": "Hiển thị {productQuantity} trong {totalQuantity} sản phẩm"
   },
   "footer": {
@@ -57,5 +58,12 @@
     "mainAlt": "Mẫu sản phẩm gỗ cao cấp",
     "featuredAlt": "Đồ gỗ nổi bật",
     "discountAlt": "Sản phẩm giảm giá"
+  },
+  "newsletter": {
+    "title": "Đăng ký nhận tin tức",
+    "description": "Nhận các ưu đãi độc quyền, sản phẩm mới và tin tức đặc biệt từ QuangWoodcraft mỗi tuần.",
+    "placeholder": "Nhập email của bạn...",
+    "button": "Đăng ký",
+    "notice": "Bằng cách đăng ký, bạn đồng ý nhận email quảng cáo từ QuangWoodcraft."
   }
 }
