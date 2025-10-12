@@ -65,5 +65,9 @@
     "placeholder": "Nhập email của bạn...",
     "button": "Đăng ký",
     "notice": "Bằng cách đăng ký, bạn đồng ý nhận email quảng cáo từ QuangWoodcraft."
+  },
+  "OurSpecs": {
+    "title": "Tiêu chuẩn của chúng tôi",
+    "description": "Chúng tôi cung cấp dịch vụ hàng đầu và trải nghiệm mua sắm tiện lợi, an toàn, hoàn toàn không rắc rối."
   }
 }

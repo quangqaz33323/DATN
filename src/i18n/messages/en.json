@@ -65,5 +65,9 @@
     "placeholder": "Enter your email...",
     "button": "Subscribe",
     "notice": "By subscribing, you agree to receive emails from QuangWoodcraft."
+  },
+  "OurSpecs": {
+    "title": "Our Specifications",
+    "description": "We offer top-tier service and convenience to ensure your shopping experience is smooth, secure, and completely hassle-free."
   }
 }
