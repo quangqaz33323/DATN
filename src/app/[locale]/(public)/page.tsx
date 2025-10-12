@@ -5,6 +5,7 @@ import Hero from "@/components/base/Hero";
 import LatestProducts from "@/components/base/LatestProducts";
 import Navbar from "@/components/base/Navbar";
 import Newsletter from "@/components/base/Newsletter";
+import OurSpecs from "@/components/base/OurSpec";
 import { useLocale } from "next-intl";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
             <Hero />
             <LatestProducts />
             <BestSelling />
+            <OurSpecs/>
             <Newsletter />
             <Footer />
         </main>

@@ -7,7 +7,7 @@ const Newsletter = () => {
   const t = useTranslations('newsletter');
 
   return (
-    <section className="flex flex-col items-center mx-4 my-36 text-center">
+    <section className="flex flex-col items-center mx-4 my-32 text-center">
       <Title
         title={t('title')}
         description={t('description')}
