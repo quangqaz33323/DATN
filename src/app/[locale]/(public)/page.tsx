@@ -2,7 +2,9 @@ import Banner from "@/components/base/Banner";
 import BestSelling from "@/components/base/BestSelling";
 import Footer from "@/components/base/Footer";
 import Hero from "@/components/base/Hero";
+import LatestProducts from "@/components/base/LatestProducts";
 import Navbar from "@/components/base/Navbar";
+import Newsletter from "@/components/base/Newsletter";
 import { useLocale } from "next-intl";
 
 export default function Home() {
@@ -13,7 +15,9 @@ export default function Home() {
             <Banner />
             <Navbar locale={locale} />
             <Hero />
-            <BestSelling/>
+            <LatestProducts />
+            <BestSelling />
+            <Newsletter />
             <Footer />
         </main>
     );

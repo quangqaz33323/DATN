@@ -9,12 +9,11 @@ import { useTranslations } from 'next-intl'
 
 const Hero = () => {
   const t = useTranslations('hero')
-  const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || 'VND'
 
   return (
     <div className="mx-6">
       <div className="flex max-xl:flex-col gap-8 max-w-[1380px] mx-auto my-10">
-        {/* Banner chính */}
+ 
         <div className="relative flex-1 flex flex-col bg-[#EADBC8] rounded-3xl xl:min-h-100 group">
           <div className="p-5 sm:p-16">
             <div className="inline-flex items-center gap-3 bg-[#D2B48C]/60 text-[#5B3921] pr-4 p-1 rounded-full text-xs sm:text-sm">
@@ -32,7 +31,7 @@ const Hero = () => {
             <div className="text-[#4A2C17] text-sm font-medium mt-4 sm:mt-8">
               <p>{t('startingFrom')}</p>
               <p className="text-3xl">
-                {currency} {t('price')}
+               {t('price')}
               </p>
             </div>
 
@@ -45,10 +44,12 @@ const Hero = () => {
             className="sm:absolute bottom-0 right-0 md:right-10 w-full sm:max-w-sm"
             src={assets.hero_model_img}
             alt={t('mainAlt')}
+            width={513}
+            height={542}
           />
         </div>
 
-        {/* Hai ô nhỏ bên phải */}
+
         <div className="flex flex-col md:flex-row xl:flex-col gap-5 w-full xl:max-w-sm text-sm text-[#5B3921]">
           <div className="flex-1 flex items-center justify-between w-full bg-[#F0E0CA] rounded-3xl p-6 px-8 group">
             <div>

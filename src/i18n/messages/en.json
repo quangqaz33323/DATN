@@ -6,6 +6,7 @@
     "address": "Address",
     "saveAddress": "Save Address",
     "bestSelling": "Best Selling",
+    "latestProducts": "Latest Products",
     "showTotalProduct": "Showing {productQuantity} of {totalQuantity} products"
   },
   "footer": {
@@ -57,5 +58,12 @@
     "mainAlt": "High-end wood product showcase",
     "featuredAlt": "Featured wooden products",
     "discountAlt": "Discounted items"
+  },
+  "newsletter": {
+    "title": "Join Our Newsletter",
+    "description": "Stay updated with the latest news, product releases, and special offers from QuangWoodcraft. Subscribe to our newsletter today!",
+    "placeholder": "Enter your email...",
+    "button": "Subscribe",
+    "notice": "By subscribing, you agree to receive emails from QuangWoodcraft."
   }
 }
