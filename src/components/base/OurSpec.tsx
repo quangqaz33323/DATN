@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import Title from './Title'
 import { ourSpecsData } from '@/assets/assets'
@@ -9,7 +7,7 @@ const OurSpecs = () => {
   const t = useTranslations('OurSpecs')
 
   return (
-    <section className="px-6 py-16 max-w-7xl mx-auto">
+    <section className="px-4 py-16 max-w-7xl mx-auto">
       <Title
         visibleButton={false}
         title={t('title')}
