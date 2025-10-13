@@ -1,4 +1,3 @@
-'use client'
 import { Product } from '@/types'
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'

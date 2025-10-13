@@ -7,7 +7,12 @@
     "saveAddress": "Lưu địa chỉ",
     "bestSelling": "Sản phẩm bán chạy",
     "latestProducts": "Sản phẩm mới",
-    "showTotalProduct": "Hiển thị {productQuantity} trong {totalQuantity} sản phẩm"
+    "showTotalProduct": "Hiển thị {productQuantity} trong {totalQuantity} sản phẩm",
+    "viewStore": "Xem cửa hàng",
+    "productByStore": "Sản phẩm của {storeName}",
+    "freeShipping": "Giao hàng miễn phí toàn quốc",
+    "securePayment": "Bảo mật thanh toán (SSL)",
+    "trustedBy": "Được khách hàng hàng ngàn đánh giá"
   },
   "footer": {
     "intro": "Chào mừng đến với QuangWoodcraft — nơi hội tụ tinh hoa gỗ thủ công. Chúng tôi mang đến sự kết hợp giữa tay nghề truyền thống và thiết kế hiện đại, tạo nên vẻ đẹp tự nhiên cho không gian sống của bạn.",

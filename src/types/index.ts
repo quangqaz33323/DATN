@@ -5,7 +5,7 @@ export interface User {
   id: string
   name: string
   email: string
-  image: string
+  image: string | StaticImageData
 }
 
 export interface Store {
@@ -100,12 +100,12 @@ export interface Coupon {
 export interface Order {
   id: string
   total: number
-  status: "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED"
+  status: "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED" | string
   userId: string
   storeId: string
   addressId: string
   isPaid: boolean
-  paymentMethod: "COD" | "BANKING" | "CREDIT"
+  paymentMethod: "COD" | "BANKING" | "CREDIT" | string
   createdAt: string
   updatedAt: string
   isCouponUsed: boolean

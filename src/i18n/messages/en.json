@@ -7,7 +7,12 @@
     "saveAddress": "Save Address",
     "bestSelling": "Best Selling",
     "latestProducts": "Latest Products",
-    "showTotalProduct": "Showing {productQuantity} of {totalQuantity} products"
+    "showTotalProduct": "Showing {productQuantity} of {totalQuantity} products",
+    "viewStore": "View store",
+    "productByStore": "Product by {storeName}",
+    "freeShipping": "Free shipping nationwide",
+    "securePayment": "Secure Payment (SSL)",
+    "trustedBy": "Trusted by thousands of customers"
   },
   "footer": {
     "intro": "Welcome to QuangWoodcraft — where fine woodcraft meets design. We blend traditional craftsmanship with modern style, bringing natural beauty to your living space.",
