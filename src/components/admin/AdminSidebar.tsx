@@ -1,6 +1,3 @@
-'use client'
-
-
 import { HomeIcon, ShieldCheckIcon, StoreIcon, TicketPercentIcon } from "lucide-react"
 import Image from "next/image"
 import { assets } from "@/assets/assets"

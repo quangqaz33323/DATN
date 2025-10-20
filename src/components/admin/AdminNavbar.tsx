@@ -1,5 +1,3 @@
-'use client'
-
 import Image from "next/image"
 import { LogOut } from "lucide-react"
 import { assets } from "@/assets/assets"

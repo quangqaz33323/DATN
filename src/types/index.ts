@@ -15,7 +15,7 @@ export interface Store {
   description: string
   username: string
   address: string
-  status: "approved" | "pending" | "rejected"
+  status: "approved" | "pending" | "rejected" | string
   isActive: boolean
   logo: string | StaticImageData
   email: string
