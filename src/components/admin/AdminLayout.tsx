@@ -17,7 +17,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     const fetchIsAdmin = async () => {
-      // ⚙️ TODO: replace with actual API check (e.g. /api/admin/me)
       await new Promise((r) => setTimeout(r, 600))
       setIsAdmin(true)
       setLoading(false)

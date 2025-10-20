@@ -38,6 +38,8 @@ export default function Cart() {
     if (products.length > 0) {
       createCartArray()
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems, products])
 
   const handleDelete = (id: string) => deleteItemFromCart(id)
