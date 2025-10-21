@@ -43,7 +43,9 @@
     "about": "Về chúng tôi",
     "contact": "Liên hệ",
     "login": "Đăng nhập",
-    "searchPlaceholder": "Tìm kiếm sản phẩm..."
+    "logout": "Đăng xuất",
+    "searchPlaceholder": "Tìm kiếm sản phẩm...",
+    "myOrder": "Đơn hàng của tôi"
   },
   "banner": {
     "claim": "Lấy 20% OFF lần đầu tiên!",
