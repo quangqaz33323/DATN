@@ -21,5 +21,5 @@ export default clerkMiddleware((auth, req) => {
 });
 
 export const config = {
-  matcher: ["/", "/(vi|en)/:path*", "/((?!_next|api|.*\\..*).*)"],
+  matcher: ["/", "/(vi|en)/:path*", "/((?!_next|.*\\..*).*)", "/api/inngest"],
 };
