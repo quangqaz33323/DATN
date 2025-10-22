@@ -43,7 +43,9 @@
     "about": "About",
     "contact": "Contact",
     "login": "Login",
-    "searchPlaceholder": "Search for products..."
+    "logout": "Logout",
+    "searchPlaceholder": "Search for products...",
+    "myOrder": "My Order"
   },
   "banner": {
     "claim": "Get 20% OFF on Your First Order!",
