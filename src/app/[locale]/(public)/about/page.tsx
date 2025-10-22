@@ -20,7 +20,7 @@ export default function AboutPage() {
         <div className="mb-20 grid items-center gap-10 md:grid-cols-2">
           <Image
             src={woodWorkshop}
-            alt="Xưởng chế tác Quang Woodcraft"
+            alt="Xưởng chế tác Quang Woodcraft."
             className="rounded-2xl shadow-lg"
             width={600}
             height={400}
