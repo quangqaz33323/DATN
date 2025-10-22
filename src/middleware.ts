@@ -1,22 +1,15 @@
 import createMiddleware from "next-intl/middleware";
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import { routing } from "./i18n/routing";
+import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware(routing);
 
-// const isPublicRoute = createRouteMatcher([
-//   "/",
-//   "/vi",
-//   "/en",
-//   "/vi/sign-in(.*)",
-//   "/en/sign-in(.*)",
-//   "/vi/sign-up(.*)",
-//   "/en/sign-up(.*)",
-//   "/sign-in(.*)",
-//   "/sign-up(.*)",
-// ]);
-
 export default clerkMiddleware((auth, req) => {
+  if (req.nextUrl.pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
   return intlMiddleware(req);
 });
 
