@@ -5,8 +5,13 @@ import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware(routing);
 
+const PROTECTED_API_ROUTES = ["/api/inngest"];
+
 export default clerkMiddleware((auth, req) => {
-  if (req.nextUrl.pathname.startsWith("/api/")) {
+  const pathname = req.nextUrl.pathname;
+  const isProtectedApiRoute = PROTECTED_API_ROUTES.some((route) => pathname.startsWith(route));
+
+  if (isProtectedApiRoute) {
     return NextResponse.next();
   }
 
@@ -14,5 +19,5 @@ export default clerkMiddleware((auth, req) => {
 });
 
 export const config = {
-  matcher: ["/", "/(vi|en)/:path*", "/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/", "/(vi|en)/:path*", "/((?!api|_next|.*\\..*).*)", "/api/:path*"],
 };
