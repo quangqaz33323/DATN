@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     });
 
     const imageURL = imagekit.url({
-      src: response.filePath,
+      path: response.filePath,
       transformation: [
         {
           quality: "auto",
@@ -77,6 +77,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: "Applied, waiting for approval" });
   } catch (error) {
+    console.log(error);
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
