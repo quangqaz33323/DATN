@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuth } from "@clerk/nextjs/server";
-import authSeller from "@/app/middlewares/authSeller";
-import Rating from "@/components/base/Rating";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const username = searchParams.get("username");
+    const username = searchParams.get("username")?.toLowerCase();
 
     if (!username) {
       return NextResponse.json("Missing username", { status: 400 });
