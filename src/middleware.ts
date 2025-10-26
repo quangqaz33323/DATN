@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware(routing);
 
-const PROTECTED_API_ROUTES = ["/api/inngest", "/api/store"];
+const PROTECTED_API_ROUTES = ["/api/inngest", "/api/store", "/api/admin"];
 
 export default clerkMiddleware((auth, req) => {
   const pathname = req.nextUrl.pathname;
