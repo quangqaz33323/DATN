@@ -10,8 +10,6 @@ const authAdmin = async (userId: string): Promise<boolean> => {
 
     const user = await client.users.getUser(userId);
 
-    console.log("User:", user);
-
     return process.env.ADMIN_EMAILS?.split(",").includes(user.emailAddresses[0].emailAddress)
       ? true
       : false;
