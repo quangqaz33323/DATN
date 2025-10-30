@@ -25,7 +25,7 @@ const AdminSidebar = () => {
       <div className="flex flex-col items-center justify-center gap-3 pt-8 max-sm:hidden">
         <Image
           className="h-14 w-14 rounded-full border border-[#D7C0AE] shadow-sm"
-          src={user?.imageUrl!}
+          src={user?.imageUrl || ""}
           alt="Admin Logo"
           width={80}
           height={80}
