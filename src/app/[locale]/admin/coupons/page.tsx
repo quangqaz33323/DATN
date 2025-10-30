@@ -6,6 +6,14 @@ import { DeleteIcon } from "lucide-react";
 import { Coupon } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export default function AdminCoupons() {
   const { getToken } = useAuth();
@@ -63,8 +71,37 @@ export default function AdminCoupons() {
     setNewCoupon({ ...newCoupon, [e.target.name]: e.target.value });
   };
 
-  const deleteCoupon = async (code: Coupon["code"]) => {
-    // Logic để xóa coupon
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const openDeleteDialog = (code: string) => {
+    setSelectedCode(code);
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setSelectedCode(null);
+    setDeleteDialogOpen(false);
+  };
+
+  const deleteCoupon = async (code?: Coupon["code"]) => {
+    if (!code) return;
+    setDeleting(true);
+    try {
+      const token = await getToken();
+      await axios.delete(`/api/admin/coupons?code=${code}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success("Xóa coupon thành công");
+      await fetchCoupons();
+      closeDeleteDialog();
+    } catch (error) {
+      console.error(error);
+      toast.error("Xóa coupon thất bại");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   useEffect(() => {
@@ -75,17 +112,20 @@ export default function AdminCoupons() {
     <div className="mb-40 text-stone-600">
       <form
         onSubmit={(e) => toast.promise(handleAddCoupon(e), { loading: "Đang thêm coupon..." })}
-        className="max-w-sm rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm shadow-sm"
+        className="max-w-2xl rounded-md border border-amber-200 bg-white p-6 text-sm shadow-lg"
       >
         <h2 className="text-2xl font-semibold">
           Thêm <span className="font-bold text-amber-900">Mã giảm giá</span>
         </h2>
+        <p className="mt-1 text-sm text-stone-500">
+          Tạo mã giảm giá mới, áp dụng cho đơn hàng hoặc người dùng cụ thể.
+        </p>
 
-        <div className="mt-4 flex gap-2 max-sm:flex-col">
+        <div className="mt-4 grid grid-cols-2 gap-3 max-sm:grid-cols-1">
           <input
             type="text"
             placeholder="Mã coupon"
-            className="w-full rounded-md border border-amber-200 bg-white p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            className="w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
             name="code"
             value={newCoupon.code}
             onChange={handleChange}
@@ -96,7 +136,7 @@ export default function AdminCoupons() {
             placeholder="Giảm giá (%)"
             min={1}
             max={100}
-            className="w-full rounded-md border border-amber-200 bg-white p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            className="w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
             name="discount"
             value={newCoupon.discount}
             onChange={handleChange}
@@ -107,7 +147,7 @@ export default function AdminCoupons() {
         <input
           type="text"
           placeholder="Mô tả coupon"
-          className="mt-3 w-full rounded-md border border-amber-200 bg-white p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+          className="mt-3 w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
           name="description"
           value={newCoupon.description}
           onChange={handleChange}
@@ -118,7 +158,7 @@ export default function AdminCoupons() {
           <p className="mt-4 font-medium text-stone-700">Ngày hết hạn</p>
           <input
             type="date"
-            className="mt-1 w-full rounded-md border border-amber-200 bg-white p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            className="mt-1 w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
             name="expiresAt"
             value={format(newCoupon.expiresAt, "yyyy-MM-dd")}
             onChange={handleChange}
@@ -157,9 +197,11 @@ export default function AdminCoupons() {
           </div>
         </div>
 
-        <button className="mt-5 w-full rounded-lg bg-amber-700 py-2 font-medium text-white transition hover:bg-amber-800 active:scale-95">
-          Thêm mã
-        </button>
+        <div className="mt-5">
+          <Button className="w-full rounded-md bg-amber-700 py-2 font-medium text-white hover:bg-amber-800">
+            Thêm mã
+          </Button>
+        </div>
       </form>
 
       <div className="mt-14">
@@ -167,13 +209,16 @@ export default function AdminCoupons() {
           Danh sách <span className="font-bold text-amber-900">Coupon</span>
         </h2>
 
-        <div className="mt-5 max-w-4xl overflow-x-auto rounded-xl border border-amber-200 bg-amber-50 shadow-sm">
+        <div className="mt-5 max-w-4xl overflow-x-auto rounded-md border border-amber-200 bg-white shadow-sm">
           <table className="min-w-full text-sm text-stone-700">
             <thead className="bg-amber-100">
               <tr>
                 {["Mã", "Mô tả", "Giảm giá", "Hết hạn", "Người mới", "Thành viên", "Hành động"].map(
                   (h) => (
-                    <th key={h} className="px-4 py-3 text-left font-semibold text-amber-900">
+                    <th
+                      key={h}
+                      className="bg-amber-50 px-4 py-3 text-left font-semibold text-amber-900"
+                    >
                       {h}
                     </th>
                   )
@@ -191,12 +236,13 @@ export default function AdminCoupons() {
                   <td className="px-4 py-3">{coupon.forNewUser ? "Có" : "Không"}</td>
                   <td className="px-4 py-3">{coupon.forMember ? "Có" : "Không"}</td>
                   <td className="px-4 py-3">
-                    <DeleteIcon
-                      onClick={() =>
-                        toast.promise(deleteCoupon(coupon.code), { loading: "Đang xóa..." })
-                      }
-                      className="h-5 w-5 cursor-pointer text-red-500 hover:text-red-700"
-                    />
+                    <button
+                      onClick={() => openDeleteDialog(coupon.code)}
+                      aria-label={`Xóa ${coupon.code}`}
+                      className="inline-flex items-center justify-center rounded-sm p-1 hover:bg-red-50"
+                    >
+                      <DeleteIcon className="h-5 w-5 text-red-600 hover:text-red-800" />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -204,6 +250,30 @@ export default function AdminCoupons() {
           </table>
         </div>
       </div>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Xác nhận xóa</DialogTitle>
+            <DialogDescription>
+              Bạn có chắc muốn xóa mã <span className="font-medium">{selectedCode}</span>? Hành động
+              này không thể hoàn tác.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex justify-end gap-2">
+            <Button variant="outline" onClick={closeDeleteDialog} disabled={deleting}>
+              Hủy
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700"
+              onClick={() => deleteCoupon(selectedCode ?? undefined)}
+              disabled={deleting}
+            >
+              {deleting ? "Đang xóa..." : "Xóa"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

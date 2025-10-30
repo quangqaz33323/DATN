@@ -1,6 +1,5 @@
 "use client";
 
-import { storesDummyData } from "@/assets/assets";
 import StoreInfo from "@/components/admin/StoreInfo";
 import Loading from "@/components/base/Loading";
 import { Store } from "@/types";
@@ -68,7 +67,7 @@ export default function AdminStores() {
           {stores.map((store) => (
             <div
               key={store.id}
-              className="flex max-w-4xl gap-4 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6 shadow-md transition-all hover:shadow-lg max-md:flex-col md:items-end"
+              className="flex max-w-4xl gap-4 rounded-md border border-amber-200 bg-white p-6 shadow-sm transition hover:shadow-md max-md:flex-col md:items-end"
             >
               <StoreInfo store={store} />
 

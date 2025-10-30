@@ -26,20 +26,24 @@ export default function OrdersAreaChart({
   }));
 
   return (
-    <div className="h-[300px] w-full max-w-5xl text-xs">
-      <h3 className="mb-4 pt-2 text-right text-lg font-medium text-slate-800">
-        <span className="text-slate-500">Orders /</span> Day
-      </h3>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-[320px] w-full max-w-5xl rounded-md bg-white p-4 text-sm shadow-sm">
+      <div className="mb-3 flex items-baseline justify-between">
+        <h3 className="text-lg font-medium text-amber-800">Orders / Day</h3>
+        <span className="text-sm text-slate-500">Last {chartData.length} days</span>
+      </div>
+      <ResponsiveContainer width="100%" height="calc(100% - 36px)">
         <AreaChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis
-            allowDecimals={false}
-            label={{ value: "Orders", angle: -90, position: "insideLeft" }}
-          />
+          <CartesianGrid strokeDasharray="3 3" stroke="#fffbeb" />
+          <XAxis dataKey="date" tick={{ fill: "#6b7280", fontSize: 12 }} />
+          <YAxis allowDecimals={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
           <Tooltip />
-          <Area type="monotone" dataKey="orders" stroke="#4f46e5" fill="#8884d8" strokeWidth={2} />
+          <Area
+            type="monotone"
+            dataKey="orders"
+            stroke="#D97706"
+            fill="rgba(217,119,6,0.18)"
+            strokeWidth={2}
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>

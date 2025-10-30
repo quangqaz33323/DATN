@@ -7,6 +7,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export default function AdminApprove() {
   const { user } = useUser();
@@ -74,32 +75,32 @@ export default function AdminApprove() {
           {stores.map((store) => (
             <div
               key={store.id}
-              className="flex max-w-4xl gap-4 rounded-xl border border-amber-200 bg-amber-50 p-6 shadow-sm transition hover:shadow-md max-md:flex-col md:items-end"
+              className="flex max-w-4xl gap-4 rounded-md border border-amber-200 bg-white p-6 shadow-sm transition hover:shadow-md max-md:flex-col md:items-end"
             >
               <StoreInfo store={store} />
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <button
+                <Button
                   onClick={() =>
                     toast.promise(handleApprove({ storeId: store.id, status: "approved" }), {
                       loading: "Đang duyệt...",
                     })
                   }
-                  className="rounded-lg bg-amber-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-amber-800"
+                  className="rounded-md bg-amber-700 px-4 py-2 text-sm font-medium text-white hover:bg-amber-800"
                 >
                   Duyệt
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() =>
                     toast.promise(handleApprove({ storeId: store.id, status: "rejected" }), {
                       loading: "Đang từ chối...",
                     })
                   }
-                  className="rounded-lg bg-stone-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-stone-600"
+                  className="rounded-md bg-stone-500 px-4 py-2 text-sm font-medium text-white hover:bg-stone-600"
                 >
                   Từ chối
-                </button>
+                </Button>
               </div>
             </div>
           ))}
