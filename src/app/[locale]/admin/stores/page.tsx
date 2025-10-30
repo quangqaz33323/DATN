@@ -1,55 +1,82 @@
-'use client'
+"use client";
 
-import { storesDummyData } from "@/assets/assets"
-import StoreInfo from "@/components/admin/StoreInfo"
-import Loading from "@/components/base/Loading"
-import { Store } from "@/types"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
-
+import StoreInfo from "@/components/admin/StoreInfo";
+import Loading from "@/components/base/Loading";
+import { Store } from "@/types";
+import { useAuth, useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function AdminStores() {
-  const [stores, setStores] = useState<Store[]>([])
-  const [loading, setLoading] = useState(true)
+  const { user } = useUser();
+  const { getToken } = useAuth();
+  const [stores, setStores] = useState<Store[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchStores = async () => {
-    setStores(storesDummyData)
-    setLoading(false)
-  }
+    try {
+      const token = await getToken();
+      const { data } = await axios.get("/api/admin/stores", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setStores(data);
+    } catch (error) {
+      toast.error("Failed to fetch stores");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleIsActive = async (storeId: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 800))
-    toast.success("Cập nhật trạng thái cửa hàng thành công 🎉")
-  }
+    try {
+      const token = await getToken();
+      await axios.post(
+        "/api/admin/toggle-store",
+        { storeId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Cập nhật trạng thái cửa hàng thành công 🎉");
+      await fetchStores();
+    } catch (error) {
+      toast.error("Failed to toggle store active status");
+    }
+  };
 
   useEffect(() => {
-    fetchStores()
-  }, [])
+    if (user) {
+      fetchStores();
+    }
+  }, [user]);
 
   return !loading ? (
-    <div className="text-amber-900 mb-28">
-
-      <h1 className="text-3xl font-bold text-amber-800 tracking-tight mb-6">
-        Quản lý <span className="text-amber-700 font-normal">Cửa hàng</span>
+    <div className="mb-28 text-amber-900">
+      <h1 className="mb-6 text-3xl font-bold tracking-tight text-amber-800">
+        Quản lý <span className="font-normal text-amber-700">Cửa hàng</span>
       </h1>
 
-
       {stores.length ? (
-        <div className="flex flex-col gap-6 mt-4">
+        <div className="mt-4 flex flex-col gap-6">
           {stores.map((store) => (
             <div
               key={store.id}
-              className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border border-amber-200 rounded-2xl shadow-md hover:shadow-lg transition-all p-6 flex max-md:flex-col gap-4 md:items-end max-w-4xl"
+              className="flex max-w-4xl gap-4 rounded-md border border-amber-200 bg-white p-6 shadow-sm transition hover:shadow-md max-md:flex-col md:items-end"
             >
-   
               <StoreInfo store={store} />
 
-              <div className="flex items-center gap-3 pt-2 flex-wrap">
-                <p className="text-amber-800 font-medium">Trạng thái:</p>
-                <label className="relative inline-flex items-center cursor-pointer">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <p className="font-medium text-amber-800">Trạng thái:</p>
+                <label className="relative inline-flex cursor-pointer items-center">
                   <input
                     type="checkbox"
-                    className="sr-only peer"
+                    className="peer sr-only"
                     onChange={() =>
                       toast.promise(toggleIsActive(store.id), {
                         loading: "Đang cập nhật...",
@@ -59,8 +86,8 @@ export default function AdminStores() {
                     }
                     checked={store.isActive}
                   />
-                  <div className="w-10 h-6 bg-amber-200 rounded-full peer peer-checked:bg-amber-600 transition-colors duration-300"></div>
-                  <span className="dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ease-in-out peer-checked:translate-x-4"></span>
+                  <div className="peer h-6 w-10 rounded-full bg-amber-200 transition-colors duration-300 peer-checked:bg-amber-600"></div>
+                  <span className="dot absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform duration-300 ease-in-out peer-checked:translate-x-4"></span>
                 </label>
                 <span
                   className={`text-sm font-medium ${
@@ -74,14 +101,12 @@ export default function AdminStores() {
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center h-80">
-          <h1 className="text-3xl text-amber-400 font-medium">
-            Chưa có cửa hàng nào
-          </h1>
+        <div className="flex h-80 items-center justify-center">
+          <h1 className="text-3xl font-medium text-amber-400">Chưa có cửa hàng nào</h1>
         </div>
       )}
     </div>
   ) : (
     <Loading />
-  )
+  );
 }

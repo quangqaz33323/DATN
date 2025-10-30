@@ -12,14 +12,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json("Forbidden", { status: 403 });
     }
 
-    const storeId = await request.json();
+    const data = await request.json();
 
-    if (!storeId) {
+    if (!data.storeId) {
       return NextResponse.json("Missing storeId", { status: 400 });
     }
 
     const store = await prisma.store.findUnique({
-      where: { id: storeId },
+      where: { id: data.storeId },
     });
 
     if (!store) {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     await prisma.store.update({
-      where: { id: storeId },
+      where: { id: data.storeId },
       data: {
         isActive: !store.isActive,
       },
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: "Store status toggled successfully" });
   } catch (error) {
+    console.error(error);
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }

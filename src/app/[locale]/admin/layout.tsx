@@ -1,4 +1,5 @@
 import AdminLayout from "@/components/admin/AdminLayout";
+import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
 
 export const metadata = {
   title: "QuangWoodcraft — Bảng điều khiển quản trị",
@@ -22,10 +23,17 @@ export const metadata = {
   },
 };
 
-export default function RootAdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <AdminLayout>{children}</AdminLayout>;
+export default function RootAdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <SignedIn>
+        <AdminLayout>{children}</AdminLayout>
+      </SignedIn>
+      <SignedOut>
+        <div className="flex min-h-screen items-center justify-center">
+          <SignIn fallbackRedirectUrl="/admin" routing="hash" />
+        </div>
+      </SignedOut>
+    </>
+  );
 }

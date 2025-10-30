@@ -9,6 +9,17 @@ const nextConfig: NextConfig = {
     webpackMemoryOptimizations: true,
   },
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
+
   webpack: (config, { dev }) => {
     if (!dev) {
       config.cache = {

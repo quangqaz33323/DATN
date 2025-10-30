@@ -1,186 +1,279 @@
-'use client'
-import { useEffect, useState } from "react"
-import { format } from "date-fns"
-import { toast } from "sonner"
-import { DeleteIcon } from "lucide-react"
-import { couponDummyData } from "@/assets/assets"
-import { Coupon } from "@/types"
+"use client";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { toast } from "sonner";
+import { DeleteIcon } from "lucide-react";
+import { Coupon } from "@/types";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export default function AdminCoupons() {
+  const { getToken } = useAuth();
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
 
-    const [coupons, setCoupons] = useState<Coupon[]>([])
+  const [newCoupon, setNewCoupon] = useState({
+    code: "",
+    description: "",
+    discount: 0,
+    forNewUser: false,
+    forMember: false,
+    isPublic: false,
+    expiresAt: new Date(),
+  });
 
-    const [newCoupon, setNewCoupon] = useState({
-        code: '',
-        description: '',
-        discount: '',
-        forNewUser: false,
-        forMember: false,
-        isPublic: false,
-        expiresAt: new Date()
-    })
+  const fetchCoupons = async () => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.get("/api/admin/coupons", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    const fetchCoupons = async () => {
-        setCoupons(couponDummyData)
+      setCoupons(data.coupons || []);
+    } catch (error) {
+      console.error(error);
+      toast.error("Lấy danh sách coupon thất bại");
     }
+  };
 
-    const handleAddCoupon = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        // Logic để thêm coupon mới
+  const handleAddCoupon = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const token = await getToken();
+      newCoupon.discount = Number(newCoupon.discount);
+      newCoupon.expiresAt = new Date(newCoupon.expiresAt);
+
+      await axios.post(
+        "/api/admin/coupons",
+        { coupon: newCoupon },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      toast.success("Thêm coupon thành công");
+
+      await fetchCoupons();
+    } catch (error) {
+      console.error(error);
+      toast.error("Thêm coupon thất bại");
     }
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewCoupon({ ...newCoupon, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewCoupon({ ...newCoupon, [e.target.name]: e.target.value });
+  };
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const openDeleteDialog = (code: string) => {
+    setSelectedCode(code);
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setSelectedCode(null);
+    setDeleteDialogOpen(false);
+  };
+
+  const deleteCoupon = async (code?: Coupon["code"]) => {
+    if (!code) return;
+    setDeleting(true);
+    try {
+      const token = await getToken();
+      await axios.delete(`/api/admin/coupons?code=${code}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success("Xóa coupon thành công");
+      await fetchCoupons();
+      closeDeleteDialog();
+    } catch (error) {
+      console.error(error);
+      toast.error("Xóa coupon thất bại");
+    } finally {
+      setDeleting(false);
     }
+  };
 
-    const deleteCoupon = async (code: Coupon['code']) => {
-        // Logic để xóa coupon
-    }
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
 
-    useEffect(() => {
-        fetchCoupons()
-    }, [])
+  return (
+    <div className="mb-40 text-stone-600">
+      <form
+        onSubmit={(e) => toast.promise(handleAddCoupon(e), { loading: "Đang thêm coupon..." })}
+        className="max-w-2xl rounded-md border border-amber-200 bg-white p-6 text-sm shadow-lg"
+      >
+        <h2 className="text-2xl font-semibold">
+          Thêm <span className="font-bold text-amber-900">Mã giảm giá</span>
+        </h2>
+        <p className="mt-1 text-sm text-stone-500">
+          Tạo mã giảm giá mới, áp dụng cho đơn hàng hoặc người dùng cụ thể.
+        </p>
 
-    return (
-        <div className="text-stone-600 mb-40">
-
-   
-            <form
-                onSubmit={(e) => toast.promise(handleAddCoupon(e), { loading: "Đang thêm coupon..." })}
-                className="max-w-sm text-sm bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm"
-            >
-                <h2 className="text-2xl font-semibold">
-                    Thêm <span className="text-amber-900 font-bold">Mã giảm giá</span>
-                </h2>
-
-                <div className="flex gap-2 max-sm:flex-col mt-4">
-                    <input
-                        type="text"
-                        placeholder="Mã coupon"
-                        className="w-full p-2 border border-amber-200 outline-amber-400 rounded-md bg-white focus:ring-2 focus:ring-amber-300"
-                        name="code"
-                        value={newCoupon.code}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="number"
-                        placeholder="Giảm giá (%)"
-                        min={1}
-                        max={100}
-                        className="w-full p-2 border border-amber-200 outline-amber-400 rounded-md bg-white focus:ring-2 focus:ring-amber-300"
-                        name="discount"
-                        value={newCoupon.discount}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <input
-                    type="text"
-                    placeholder="Mô tả coupon"
-                    className="w-full mt-3 p-2 border border-amber-200 outline-amber-400 rounded-md bg-white focus:ring-2 focus:ring-amber-300"
-                    name="description"
-                    value={newCoupon.description}
-                    onChange={handleChange}
-                    required
-                />
-
-                <label>
-                    <p className="mt-4 font-medium text-stone-700">Ngày hết hạn</p>
-                    <input
-                        type="date"
-                        className="w-full mt-1 p-2 border border-amber-200 outline-amber-400 rounded-md bg-white focus:ring-2 focus:ring-amber-300"
-                        name="expiresAt"
-                        value={format(newCoupon.expiresAt, 'yyyy-MM-dd')}
-                        onChange={handleChange}
-                    />
-                </label>
-
-                <div className="mt-5 space-y-3">
-                    <div className="flex items-center gap-3">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                                type="checkbox"
-                                className="sr-only peer"
-                                name="forNewUser"
-                                checked={newCoupon.forNewUser}
-                                onChange={(e) =>
-                                    setNewCoupon({ ...newCoupon, forNewUser: e.target.checked })
-                                }
-                            />
-                            <div className="w-11 h-6 bg-stone-300 rounded-full peer peer-checked:bg-amber-700 transition-colors duration-200"></div>
-                            <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-5"></span>
-                        </label>
-                        <p>Dành cho người mới</p>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                                type="checkbox"
-                                className="sr-only peer"
-                                name="forMember"
-                                checked={newCoupon.forMember}
-                                onChange={(e) =>
-                                    setNewCoupon({ ...newCoupon, forMember: e.target.checked })
-                                }
-                            />
-                            <div className="w-11 h-6 bg-stone-300 rounded-full peer peer-checked:bg-amber-700 transition-colors duration-200"></div>
-                            <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-5"></span>
-                        </label>
-                        <p>Dành cho thành viên</p>
-                    </div>
-                </div>
-
-                <button
-                    className="mt-5 w-full py-2 rounded-lg bg-amber-700 text-white font-medium hover:bg-amber-800 active:scale-95 transition"
-                >
-                    Thêm mã
-                </button>
-            </form>
-
-   
-            <div className="mt-14">
-                <h2 className="text-2xl font-semibold">
-                    Danh sách <span className="text-amber-900 font-bold">Coupon</span>
-                </h2>
-
-                <div className="overflow-x-auto mt-5 rounded-xl border border-amber-200 max-w-4xl shadow-sm bg-amber-50">
-                    <table className="min-w-full text-sm text-stone-700">
-                        <thead className="bg-amber-100">
-                            <tr>
-                                {["Mã", "Mô tả", "Giảm giá", "Hết hạn", "Người mới", "Thành viên", "Hành động"].map((h) => (
-                                    <th key={h} className="py-3 px-4 text-left font-semibold text-amber-900">
-                                        {h}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-
-                        <tbody className="divide-y divide-amber-200">
-                            {coupons.map((coupon) => (
-                                <tr key={coupon.code} className="hover:bg-amber-100/60">
-                                    <td className="py-3 px-4 font-medium text-amber-900">{coupon.code}</td>
-                                    <td className="py-3 px-4">{coupon.description}</td>
-                                    <td className="py-3 px-4">{coupon.discount}%</td>
-                                    <td className="py-3 px-4">{format(coupon.expiresAt, 'yyyy-MM-dd')}</td>
-                                    <td className="py-3 px-4">{coupon.forNewUser ? 'Có' : 'Không'}</td>
-                                    <td className="py-3 px-4">{coupon.forMember ? 'Có' : 'Không'}</td>
-                                    <td className="py-3 px-4">
-                                        <DeleteIcon
-                                            onClick={() =>
-                                                toast.promise(deleteCoupon(coupon.code), { loading: "Đang xóa..." })
-                                            }
-                                            className="w-5 h-5 text-red-500 hover:text-red-700 cursor-pointer"
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div className="mt-4 grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+          <input
+            type="text"
+            placeholder="Mã coupon"
+            className="w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            name="code"
+            value={newCoupon.code}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            placeholder="Giảm giá (%)"
+            min={1}
+            max={100}
+            className="w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            name="discount"
+            value={newCoupon.discount}
+            onChange={handleChange}
+            required
+          />
         </div>
-    )
+
+        <input
+          type="text"
+          placeholder="Mô tả coupon"
+          className="mt-3 w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+          name="description"
+          value={newCoupon.description}
+          onChange={handleChange}
+          required
+        />
+
+        <label>
+          <p className="mt-4 font-medium text-stone-700">Ngày hết hạn</p>
+          <input
+            type="date"
+            className="mt-1 w-full rounded-md border border-amber-200 bg-amber-50 p-2 outline-amber-400 focus:ring-2 focus:ring-amber-300"
+            name="expiresAt"
+            value={format(newCoupon.expiresAt, "yyyy-MM-dd")}
+            onChange={handleChange}
+          />
+        </label>
+
+        <div className="mt-5 space-y-3">
+          <div className="flex items-center gap-3">
+            <label className="relative inline-flex cursor-pointer items-center">
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                name="forNewUser"
+                checked={newCoupon.forNewUser}
+                onChange={(e) => setNewCoupon({ ...newCoupon, forNewUser: e.target.checked })}
+              />
+              <div className="peer h-6 w-11 rounded-full bg-stone-300 transition-colors duration-200 peer-checked:bg-amber-700"></div>
+              <span className="absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 peer-checked:translate-x-5"></span>
+            </label>
+            <p>Dành cho người mới</p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <label className="relative inline-flex cursor-pointer items-center">
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                name="forMember"
+                checked={newCoupon.forMember}
+                onChange={(e) => setNewCoupon({ ...newCoupon, forMember: e.target.checked })}
+              />
+              <div className="peer h-6 w-11 rounded-full bg-stone-300 transition-colors duration-200 peer-checked:bg-amber-700"></div>
+              <span className="absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 peer-checked:translate-x-5"></span>
+            </label>
+            <p>Dành cho thành viên</p>
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <Button className="w-full rounded-md bg-amber-700 py-2 font-medium text-white hover:bg-amber-800">
+            Thêm mã
+          </Button>
+        </div>
+      </form>
+
+      <div className="mt-14">
+        <h2 className="text-2xl font-semibold">
+          Danh sách <span className="font-bold text-amber-900">Coupon</span>
+        </h2>
+
+        <div className="mt-5 max-w-4xl overflow-x-auto rounded-md border border-amber-200 bg-white shadow-sm">
+          <table className="min-w-full text-sm text-stone-700">
+            <thead className="bg-amber-100">
+              <tr>
+                {["Mã", "Mô tả", "Giảm giá", "Hết hạn", "Người mới", "Thành viên", "Hành động"].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      className="bg-amber-50 px-4 py-3 text-left font-semibold text-amber-900"
+                    >
+                      {h}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-amber-200">
+              {coupons.map((coupon) => (
+                <tr key={coupon.code} className="hover:bg-amber-100/60">
+                  <td className="px-4 py-3 font-medium text-amber-900">{coupon.code}</td>
+                  <td className="px-4 py-3">{coupon.description}</td>
+                  <td className="px-4 py-3">{coupon.discount}%</td>
+                  <td className="px-4 py-3">{format(coupon.expiresAt, "yyyy-MM-dd")}</td>
+                  <td className="px-4 py-3">{coupon.forNewUser ? "Có" : "Không"}</td>
+                  <td className="px-4 py-3">{coupon.forMember ? "Có" : "Không"}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => openDeleteDialog(coupon.code)}
+                      aria-label={`Xóa ${coupon.code}`}
+                      className="inline-flex items-center justify-center rounded-sm p-1 hover:bg-red-50"
+                    >
+                      <DeleteIcon className="h-5 w-5 text-red-600 hover:text-red-800" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Xác nhận xóa</DialogTitle>
+            <DialogDescription>
+              Bạn có chắc muốn xóa mã <span className="font-medium">{selectedCode}</span>? Hành động
+              này không thể hoàn tác.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex justify-end gap-2">
+            <Button variant="outline" onClick={closeDeleteDialog} disabled={deleting}>
+              Hủy
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700"
+              onClick={() => deleteCoupon(selectedCode ?? undefined)}
+              disabled={deleting}
+            >
+              {deleting ? "Đang xóa..." : "Xóa"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
 }

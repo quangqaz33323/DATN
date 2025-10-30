@@ -10,6 +10,7 @@ import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import PleaseLogin from "@/components/base/PleaseLogin";
 import { useRouter } from "@/i18n/routing";
+import { Button } from "@/components/ui/button";
 
 interface StoreInfo {
   name: string;
@@ -132,7 +133,7 @@ export default function CreateStore() {
   return !loading ? (
     <>
       {!alreadySubmitted ? (
-        <div className="mx-6 my-16 min-h-[70vh] rounded-2xl bg-[#FDFBF7] p-6 shadow-sm">
+        <div className="mx-6 my-16 min-h-[70vh] rounded-md bg-white p-6 shadow-sm">
           <form
             onSubmit={(e) => toast.promise(onSubmitHandler(e), { loading: "Đang gửi dữ liệu..." })}
             className="mx-auto flex max-w-5xl flex-col items-start gap-4 text-[#5C4033]"
@@ -156,7 +157,7 @@ export default function CreateStore() {
                       : URL.createObjectURL(storeInfo.image)
                     : assets.upload_area
                 }
-                className="mt-3 h-24 w-auto rounded-lg border border-[#D2B48C]"
+                className="mt-3 h-24 w-auto rounded-md border border-[#D2B48C]"
                 alt="Store Logo"
                 width={180}
                 height={120}
@@ -248,13 +249,15 @@ export default function CreateStore() {
               </div>
             </div>
 
-            <button className="mt-8 mb-32 rounded-lg bg-[#8B5E3C] px-12 py-3 font-medium text-white shadow-md transition-all hover:bg-[#6B4226] active:scale-95">
-              Gửi thông tin
-            </button>
+            <div className="mt-8 mb-32">
+              <Button className="rounded-md bg-[#8B5E3C] px-12 py-3 font-medium text-white shadow-md hover:bg-[#6B4226] active:scale-95">
+                Gửi thông tin
+              </Button>
+            </div>
           </form>
         </div>
       ) : (
-        <div className="flex min-h-[80vh] flex-col items-center justify-center bg-[#FDFBF7]">
+        <div className="flex min-h-[80vh] flex-col items-center justify-center bg-white">
           <p className="mx-5 max-w-2xl text-center text-2xl font-semibold text-[#5C4033]">
             {message}
           </p>
