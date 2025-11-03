@@ -2,7 +2,6 @@ import authAdmin from "@/app/middlewares/authAdmin";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { inngest } from "@/inngest/client";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,19 +21,9 @@ export async function POST(request: NextRequest) {
 
     coupon.code = coupon.code.toUpperCase();
 
-    await prisma.coupon
-      .create({
-        data: coupon,
-      })
-      .then(async (coupon) => {
-        await inngest.send({
-          name: "app/coupon.expired",
-          data: {
-            code: coupon.code,
-            expires_at: coupon.expiresAt,
-          },
-        });
-      });
+    await prisma.coupon.create({
+      data: coupon,
+    });
 
     return NextResponse.json("Coupon created successfully", { status: 200 });
   } catch (error) {
