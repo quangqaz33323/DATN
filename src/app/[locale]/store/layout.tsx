@@ -1,4 +1,5 @@
 import StoreLayout from "@/components/store/StoreLayout";
+import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
 
 export const metadata = {
   title: "QuangWoodcraft - Bảng điều khiển cửa hàng",
@@ -13,19 +14,20 @@ export const metadata = {
     locale: "vi_VN",
     type: "website",
   },
-  keywords: [
-    "đồ gỗ",
-    "nội thất gỗ",
-    "gỗ thủ công",
-    "quản lý cửa hàng đồ gỗ",
-    "QuangWoodcraft",
-  ],
+  keywords: ["đồ gỗ", "nội thất gỗ", "gỗ thủ công", "quản lý cửa hàng đồ gỗ", "QuangWoodcraft"],
 };
 
 export default function RootStoreLayout({ children }: { children: React.ReactNode }) {
   return (
-    <StoreLayout>
-      {children}
-    </StoreLayout>
+    <>
+      <SignedIn>
+        <StoreLayout>{children}</StoreLayout>;
+      </SignedIn>
+      <SignedOut>
+        <div className="flex min-h-screen items-center justify-center">
+          <SignIn fallbackRedirectUrl="/store" routing="hash" />
+        </div>
+      </SignedOut>
+    </>
   );
 }
