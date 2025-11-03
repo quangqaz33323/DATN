@@ -8,17 +8,32 @@ import { dummyStoreData } from "@/assets/assets";
 import Loading from "../base/Loading";
 import { Store } from "@/types";
 import { Link } from "@/i18n/routing";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
+import { toast } from "sonner";
 
 const StoreLayout = ({ children }: { children: React.ReactNode }) => {
+  const { getToken } = useAuth();
   const [isSeller, setIsSeller] = useState(false);
   const [loading, setLoading] = useState(true);
   const [storeInfo, setStoreInfo] = useState<Store | null>(null);
 
   const fetchIsSeller = async () => {
-    // Giả lập kiểm tra quyền seller
-    setIsSeller(true);
-    setStoreInfo(dummyStoreData);
-    setLoading(false);
+    try {
+      const token = await getToken();
+      const { data } = await axios.get("/api/store/is-seller", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsSeller(data.isSeller);
+      setStoreInfo(data.storeInfo);
+    } catch (error) {
+      console.error("Error fetching seller status:", error);
+      toast.error("Lỗi khi kiểm tra quyền bán hàng");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -34,7 +49,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="no-scrollbar flex h-full flex-1 items-start overflow-y-auto">
         <SellerSidebar storeInfo={storeInfo} />
 
-        <div className="h-full flex-1 overflow-y-auto p-5 text-amber-900 lg:pt-10 lg:pl-12">
+        <div className="h-full flex-1 p-5 text-amber-900 lg:pt-10 lg:pl-12">
           <div className="mx-auto max-w-[1380px]">{children}</div>
         </div>
       </div>
