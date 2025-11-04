@@ -1,10 +1,14 @@
 "use client";
 import { assets } from "@/assets/assets";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function StoreAddProduct() {
+  const { getToken } = useAuth();
+
   const categories = [
     "Bàn & Ghế",
     "Tủ & Kệ",
@@ -36,11 +40,51 @@ export default function StoreAddProduct() {
 
   const onSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      // Logic thêm sản phẩm ở đây
+      if (!images[1] && !images[2] && !images[3] && !images[4]) {
+        toast.error("Vui lòng upload ít nhất 1 hình ảnh sản phẩm!");
+        return;
+      }
+
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("name", productInfo.name);
+      formData.append("description", productInfo.description);
+      formData.append("mrp", productInfo.mrp.toString());
+      formData.append("price", productInfo.price.toString());
+      formData.append("category", productInfo.category);
+
+      Object.keys(images).forEach((key: any) => {
+        if (images[key]) {
+          formData.append("images", images[key] as File);
+        }
+      });
+
+      const token = await getToken();
+      await axios.post("/api/store/product", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Thêm sản phẩm thành công!");
+
+      setProductInfo({
+        name: "",
+        description: "",
+        mrp: 0,
+        price: 0,
+        category: "",
+      });
+
+      setImages({
+        1: null,
+        2: null,
+        3: null,
+        4: null,
+      });
     } catch (err) {
       toast.error("Không thể thêm sản phẩm. Vui lòng thử lại!");
     } finally {
@@ -53,8 +97,6 @@ export default function StoreAddProduct() {
       onSubmit={(e) =>
         toast.promise(onSubmitHandler(e), {
           loading: "Đang thêm sản phẩm...",
-          success: "Thêm sản phẩm thành công!",
-          error: "Có lỗi xảy ra!",
         })
       }
       className="mb-28 text-[#5b4636]"

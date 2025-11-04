@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getAuth } from "@clerk/nextjs/server";
 import authSeller from "@/app/middlewares/authSeller";
-import Dashboard from "@/app/[locale]/store/page";
 
 export async function GET(request: NextRequest) {
   try {
