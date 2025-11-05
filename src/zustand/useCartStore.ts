@@ -5,6 +5,7 @@ import { create } from "zustand";
 interface CartState {
   total: number;
   cartItems: Record<string, number>;
+  isLoading: boolean;
   addToCart: (productId: string) => void;
   removeFromCart: (productId: string) => void;
   deleteItemFromCart: (productId: string) => void;
@@ -20,6 +21,7 @@ let debounceUploadCartItems: NodeJS.Timeout | null = null;
 export const useCartStore = create<CartState>((set, get) => ({
   total: 0,
   cartItems: {},
+  isLoading: false,
 
   addToCart: (productId) =>
     set((state) => {
@@ -60,21 +62,29 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   loadCartItems: async (getToken: (options?: GetTokenOptions) => Promise<string | null>) => {
     try {
+      set({ isLoading: true });
       const token = await getToken();
-      if (!token) return;
+      if (!token) {
+        set({ isLoading: false });
+        return;
+      }
       const { data } = await axios.get("/api/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      set({ cartItems: data?.cartItems ?? {}, total: data?.total ?? 0 });
+
+      set({ cartItems: data?.cart ?? {}, total: data?.total ?? 0, isLoading: false });
     } catch (error) {
       console.error("loadCartItems error", error);
+      set({ isLoading: false });
     }
   },
 
   uploadCartItems: async (getToken: (options?: GetTokenOptions) => Promise<string | null>) => {
     try {
+      if (get().isLoading) return;
+
       if (debounceUploadCartItems) {
         clearTimeout(debounceUploadCartItems);
       }

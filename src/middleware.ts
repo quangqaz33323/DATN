@@ -1,3 +1,4 @@
+import { Coupon } from "@/types";
 import createMiddleware from "next-intl/middleware";
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { routing } from "./i18n/routing";
@@ -12,6 +13,8 @@ const PROTECTED_API_ROUTES = [
   "/api/products",
   "/api/address",
   "/api/cart",
+  "/api/coupon",
+  "/api/order",
 ];
 
 export default clerkMiddleware((auth, req) => {

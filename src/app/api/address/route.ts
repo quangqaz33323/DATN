@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ newAddress, message: "Address add Successfully" }, { status: 200 });
   } catch (error) {
+    console.error("POST /api/address error", error);
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
