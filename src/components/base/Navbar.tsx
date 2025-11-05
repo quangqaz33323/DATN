@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { useClerk, useUser, UserButton } from "@clerk/nextjs";
+import { useClerk, useUser, UserButton, Protect } from "@clerk/nextjs";
 
 const Navbar = ({ locale }: { locale: string }) => {
   const t = useTranslations("nav");
@@ -23,7 +23,7 @@ const Navbar = ({ locale }: { locale: string }) => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm transition-colors dark:bg-gray-900">
+    <nav className="sticky top-0 z-[1] bg-white shadow-sm transition-colors dark:bg-gray-900">
       <div className="mx-4 sm:mx-6">
         <div className="mx-auto flex max-w-[1380px] items-center justify-between py-4">
           <Link
@@ -32,9 +32,11 @@ const Navbar = ({ locale }: { locale: string }) => {
           >
             <span className="text-[#B5651D]">Quang</span>Woodcraft
             <span className="text-5xl leading-0 text-[#B5651D]">.</span>
-            <p className="absolute -top-1 -right-8 rounded-full bg-[#B5651D] px-2 py-0.5 text-[10px] font-semibold text-white">
-              {t("plus")}
-            </p>
+            <Protect plan={"plus"}>
+              <p className="absolute -top-1 -right-8 rounded-full bg-[#B5651D] px-2 py-0.5 text-[10px] font-semibold text-white">
+                {t("plus")}
+              </p>
+            </Protect>
           </Link>
 
           <div className="hidden items-center gap-4 text-slate-600 sm:flex lg:gap-6 dark:text-slate-300">

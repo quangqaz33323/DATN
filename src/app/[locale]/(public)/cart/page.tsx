@@ -20,13 +20,13 @@ export default function Cart() {
 
   const createCartArray = () => {
     let total = 0;
-    const array = [];
+    const array: any[] = [];
 
-    for (const [productId, quantity] of Object.entries(cartItems)) {
+    for (const [productId, quantity] of Object.entries(cartItems || {})) {
       const product = products.find((p) => p.id === productId);
       if (product) {
         array.push({ ...product, quantity });
-        total += product.price * quantity;
+        total += product.price * Number(quantity);
       }
     }
 
@@ -38,7 +38,6 @@ export default function Cart() {
     if (products.length > 0) {
       createCartArray();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems, products]);
 
@@ -75,11 +74,11 @@ export default function Cart() {
               {cartArray.map((item, index) => (
                 <tr key={index} className="space-x-2">
                   <td className="my-4 flex gap-3">
-                    <div className="flex size-18 items-center justify-center gap-3 rounded-md bg-slate-100">
+                    <div className="flex items-center justify-center gap-3 rounded-sm bg-slate-100 p-2">
                       <Image
                         src={item.images?.[0] || "/placeholder.png"}
                         alt={item.name}
-                        className="h-14 w-auto"
+                        className="h-14 w-auto rounded-sm object-contain"
                         width={45}
                         height={45}
                       />
@@ -87,9 +86,8 @@ export default function Cart() {
                     <div>
                       <p className="font-medium max-sm:text-sm">{item.name}</p>
                       <p className="text-xs text-slate-500">{item.category}</p>
-                      <p>
-                        {currency}
-                        {item.price.toLocaleString()}
+                      <p className="text-sm">
+                        {currency} {item.price.toLocaleString()}
                       </p>
                     </div>
                   </td>
@@ -99,14 +97,14 @@ export default function Cart() {
                   </td>
 
                   <td className="text-center">
-                    {currency}
-                    {(item.price * item.quantity).toLocaleString()}
+                    {currency} {(item.price * item.quantity).toLocaleString()}
                   </td>
 
                   <td className="text-center max-md:hidden">
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="rounded-full p-2.5 text-red-500 transition-all hover:bg-red-50 active:scale-95"
+                      className="rounded-sm p-2 text-red-500 transition-colors hover:bg-red-50 active:scale-95"
+                      aria-label={`Delete ${item.name}`}
                     >
                       <Trash2Icon size={18} />
                     </button>
