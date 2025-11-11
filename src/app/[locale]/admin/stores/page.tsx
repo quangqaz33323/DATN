@@ -23,7 +23,7 @@ export default function AdminStores() {
         },
       });
       setStores(data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch stores");
     } finally {
       setLoading(false);
@@ -45,7 +45,7 @@ export default function AdminStores() {
 
       toast.success("Cập nhật trạng thái cửa hàng thành công 🎉");
       await fetchStores();
-    } catch (error) {
+    } catch {
       toast.error("Failed to toggle store active status");
     }
   };
@@ -54,6 +54,8 @@ export default function AdminStores() {
     if (user) {
       fetchStores();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return !loading ? (

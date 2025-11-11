@@ -80,7 +80,7 @@ export default function CreateStore() {
       } else {
         setAlreadySubmitted(false);
       }
-    } catch (error) {
+    } catch {
       toast.error("Đã có lỗi xảy ra. Vui lòng thử lại.");
     } finally {
       setLoading(false);
@@ -114,7 +114,7 @@ export default function CreateStore() {
 
       toast.success(data.message || "Gửi thông tin thành công!");
       await fetchSellerStatus();
-    } catch (error) {
+    } catch {
       toast.error("Đã có lỗi xảy ra. Vui lòng thử lại.");
     }
   };
@@ -124,6 +124,7 @@ export default function CreateStore() {
       fetchSellerStatus();
     }
     fetchSellerStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   if (!user) {

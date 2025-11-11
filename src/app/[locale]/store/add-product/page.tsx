@@ -85,7 +85,7 @@ export default function StoreAddProduct() {
         3: null,
         4: null,
       });
-    } catch (err) {
+    } catch {
       toast.error("Không thể thêm sản phẩm. Vui lòng thử lại!");
     } finally {
       setLoading(false);

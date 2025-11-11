@@ -60,6 +60,7 @@ export default function StoreManageProducts() {
     if (user) {
       fetchProducts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   if (loading) return <Loading />;

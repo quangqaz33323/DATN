@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       },
     });
     return NextResponse.json({ message: "Cart updated" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       },
     });
     return NextResponse.json({ cart: user?.cart }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { ArrowRightIcon } from "lucide-react";
 import SellerNavbar from "./StoreNavbar";
 import SellerSidebar from "./StoreSidebar";
-import { dummyStoreData } from "@/assets/assets";
 import Loading from "../base/Loading";
 import { Store } from "@/types";
 import { Link } from "@/i18n/routing";
