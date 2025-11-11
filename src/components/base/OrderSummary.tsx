@@ -7,6 +7,7 @@ import { useAddressStore } from "@/zustand/useAddressStore";
 import { useRouter } from "@/i18n/routing";
 import { Protect, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
+import { useCartStore } from "@/zustand/useCartStore";
 
 interface OrderSummaryProps {
   totalPrice: number;
@@ -18,6 +19,7 @@ const OrderSummary = ({ totalPrice, items }: OrderSummaryProps) => {
   const { getToken } = useAuth();
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₫";
   const router = useRouter();
+  const loadCartItems = useCartStore((s) => s.loadCartItems);
 
   const { list: addressList } = useAddressStore();
   const [paymentMethod, setPaymentMethod] = useState<"COD" | "STRIPE">("COD");
@@ -56,8 +58,42 @@ const OrderSummary = ({ totalPrice, items }: OrderSummaryProps) => {
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedAddress) return toast.error("Vui lòng chọn địa chỉ giao hàng");
-    router.push("/orders");
+
+    try {
+      if (!user) return toast.error("Vui lòng đăng nhập để đặt hàng");
+
+      if (!selectedAddress) return toast.error("Vui lòng chọn địa chỉ giao hàng");
+
+      const token = await getToken();
+
+      const orderData = {
+        addressId: selectedAddress?.id,
+        items,
+        paymentMethod,
+        couponCode: "",
+      };
+
+      if (coupon) {
+        orderData.couponCode = coupon.code;
+      }
+
+      const { data } = await axios.post("/api/orders", orderData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (paymentMethod === "STRIPE") {
+        window.location.href = data.session.url;
+      } else {
+        toast.success("Order placed successfully");
+        router.push("/orders");
+        loadCartItems(getToken);
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error || error?.message || "Order placement failed");
+    }
   };
 
   return (

@@ -21,7 +21,7 @@ export async function GET() {
 
     products = products.filter((product) => product.store.isActive);
     return NextResponse.json({ products }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }

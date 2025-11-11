@@ -106,6 +106,8 @@ export default function AdminCoupons() {
 
   useEffect(() => {
     fetchCoupons();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

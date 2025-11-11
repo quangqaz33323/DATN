@@ -1,5 +1,4 @@
 "use client";
-import { storesDummyData } from "@/assets/assets";
 import StoreInfo from "@/components/admin/StoreInfo";
 import Loading from "@/components/base/Loading";
 import { Store } from "@/types";
@@ -25,7 +24,7 @@ export default function AdminApprove() {
       });
 
       setStores(data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch pending stores");
     } finally {
       setLoading(false);
@@ -53,7 +52,7 @@ export default function AdminApprove() {
 
       toast.success("Cửa hàng đã được duyệt");
       await fetchStores();
-    } catch (error) {
+    } catch {
       toast.error("Failed to approve store");
     }
   };
@@ -62,6 +61,8 @@ export default function AdminApprove() {
     if (user) {
       fetchStores();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return !loading ? (

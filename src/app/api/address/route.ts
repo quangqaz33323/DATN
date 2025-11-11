@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       },
     });
     return NextResponse.json({ addresses }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }

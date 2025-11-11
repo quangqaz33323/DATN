@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { orderDummyData } from "@/assets/assets";
 import Loading from "@/components/base/Loading";
 import { Order } from "@/types";
 import { useAuth } from "@clerk/nextjs";
@@ -38,7 +37,7 @@ export default function StoreOrders() {
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
       const token = await getToken();
-      await axios.put(
+      await axios.post(
         "/api/store/orders",
         { orderId, status },
         {
@@ -71,6 +70,7 @@ export default function StoreOrders() {
 
   useEffect(() => {
     fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;
