@@ -45,7 +45,8 @@
     "login": "Đăng nhập",
     "logout": "Đăng xuất",
     "searchPlaceholder": "Tìm kiếm sản phẩm...",
-    "myOrder": "Đơn hàng của tôi"
+    "myOrder": "Đơn hàng của tôi",
+    "myStore": "Cửa hàng của tôi"
   },
   "banner": {
     "claim": "Lấy 20% OFF lần đầu tiên!",
