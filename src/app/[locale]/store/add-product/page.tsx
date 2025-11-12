@@ -33,9 +33,62 @@ export default function StoreAddProduct() {
     category: "",
   });
   const [loading, setLoading] = useState(false);
+  const [aiUsed, setAiUsed] = useState(false);
+  const [aiEnabled, setAiEnabled] = useState(true); // Trạng thái bật/tắt AI
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = async (key: string, file?: File) => {
+    setImages((prev) => ({ ...prev, [key]: file }));
+
+    // Chỉ chạy AI khi: key = "1", có file, chưa dùng AI, và AI được bật
+    if (key === "1" && file && !aiUsed && aiEnabled) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        const token = await getToken();
+        const base64Image = reader.result?.toString().split(",")[1] || "";
+
+        try {
+          await toast.promise(
+            axios.post(
+              "/api/store/ai",
+              {
+                base64Image: base64Image,
+                mimeType: file.type,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            ),
+            {
+              loading: "Đang sử dụng AI...",
+              success: (res) => {
+                const data = res.data;
+
+                if (data.name && data.description) {
+                  setProductInfo((prev) => ({
+                    ...prev,
+                    name: data.name,
+                    description: data.description,
+                  }));
+                }
+
+                setAiUsed(true);
+                return "Sử dụng AI thành công!";
+              },
+              error: "Không thể sử dụng AI. Vui lòng thử lại!",
+            }
+          );
+        } catch {
+          toast.error("Không thể sử dụng AI. Vui lòng thử lại!");
+        }
+      };
+    }
   };
 
   const onSubmitHandler = async (e: React.FormEvent) => {
@@ -85,6 +138,8 @@ export default function StoreAddProduct() {
         3: null,
         4: null,
       });
+
+      setAiUsed(false); // Reset trạng thái AI đã dùng
     } catch {
       toast.error("Không thể thêm sản phẩm. Vui lòng thử lại!");
     } finally {
@@ -101,9 +156,37 @@ export default function StoreAddProduct() {
       }
       className="mb-28 text-[#5b4636]"
     >
-      <h1 className="mb-6 text-2xl font-semibold text-[#8b5e3c]">
-        Thêm <span className="font-bold text-[#3e2a18]">Sản phẩm mới</span>
-      </h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-[#8b5e3c]">
+          Thêm <span className="font-bold text-[#3e2a18]">Sản phẩm mới</span>
+        </h1>
+
+        {/* Nút bật/tắt AI */}
+        <button
+          type="button"
+          onClick={() => {
+            setAiEnabled(!aiEnabled);
+            toast.success(
+              aiEnabled
+                ? "Đã tắt tự động điền thông tin bằng AI"
+                : "Đã bật tự động điền thông tin bằng AI"
+            );
+          }}
+          className={`flex items-center gap-2 rounded-lg px-4 py-2 font-medium shadow-sm transition ${
+            aiEnabled
+              ? "bg-[#8b5e3c] text-white hover:bg-[#734c31]"
+              : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+          }`}
+        >
+          <span>{aiEnabled ? "AI Bật" : "AI Tắt"}</span>
+        </button>
+      </div>
+
+      {aiEnabled && (
+        <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+          💡 <strong>Mẹo:</strong> Upload hình ảnh đầu tiên để AI tự động điền tên và mô tả sản phẩm
+        </div>
+      )}
 
       <p className="mt-5 font-medium">Hình ảnh sản phẩm</p>
 
@@ -125,12 +208,7 @@ export default function StoreAddProduct() {
               type="file"
               accept="image/*"
               id={`images${key}`}
-              onChange={(e) =>
-                setImages({
-                  ...images,
-                  [key as any]: e.target.files?.[0] || null,
-                })
-              }
+              onChange={(e) => handleImageUpload(key, e.target.files?.[0])}
               hidden
             />
           </label>
