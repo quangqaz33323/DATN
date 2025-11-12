@@ -56,7 +56,7 @@ export default function StoreAddProduct() {
             axios.post(
               "/api/store/ai",
               {
-                base46Image: base64Image,
+                base64Image: base64Image,
                 mimeType: file.type,
               },
               {

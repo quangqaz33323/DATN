@@ -81,9 +81,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("Seller Unauthorized", { status: 401 });
     }
 
-    const { base46Image, mimeType } = await req.json();
+    const { base64Image, mimeType } = await req.json();
 
-    const result = await main(base46Image, mimeType);
+    const result = await main(base64Image, mimeType);
     return NextResponse.json({ ...result }, { status: 200 });
   } catch (error) {
     console.log("Error", error);
