@@ -71,9 +71,9 @@ export default function StoreManageProducts() {
         Quản lý <span className="font-bold text-[#3e2a18]">Sản phẩm</span>
       </h1>
 
-      <div className="overflow-x-auto rounded-xl border border-[#d9c4a1] bg-[#fffaf3] shadow-lg">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-[#f5ede2] tracking-wider text-[#4b382a] uppercase">
+      <div className="overflow-x-auto rounded-md bg-[#fffaf3] shadow-sm">
+        <table className="w-full divide-y divide-[#eee2cf] text-left text-sm">
+          <thead className="bg-[#f9f4ec] text-[13px] tracking-wide text-[#4b382a] uppercase">
             <tr>
               <th className="px-5 py-3">Tên sản phẩm</th>
               <th className="hidden px-5 py-3 md:table-cell">Mô tả</th>
@@ -82,15 +82,15 @@ export default function StoreManageProducts() {
               <th className="px-5 py-3 text-center">Tình trạng</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#e2d0b0]">
+          <tbody className="divide-y divide-[#f0e6d3]">
             {products.map((product) => (
-              <tr key={product.id} className="transition-colors hover:bg-[#f8f3ec]">
+              <tr key={product.id} className="transition-colors hover:bg-[#fdfaf6]">
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
                     <Image
                       width={48}
                       height={48}
-                      className="rounded-md border border-[#d1b89e] shadow-sm"
+                      className="rounded-md border border-[#e5d7c2] shadow-sm"
                       src={product.images[0]}
                       alt={product.name}
                     />
@@ -118,7 +118,7 @@ export default function StoreManageProducts() {
                       }
                       checked={product.inStock}
                     />
-                    <div className="h-6 w-11 rounded-full bg-[#cbbba0] transition-colors peer-checked:bg-[#8b5e3c]"></div>
+                    <div className="h-6 w-11 rounded-full bg-[#d7c8af] transition-colors peer-checked:bg-[#8b5e3c]"></div>
                     <span className="absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                   </label>
                 </td>

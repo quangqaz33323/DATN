@@ -22,7 +22,7 @@ const AdminSidebar = () => {
 
   return (
     user && (
-      <aside className="inline-flex h-full flex-col border-r border-[#EADAC1] bg-[#FAF7F2] shadow-inner sm:min-w-60">
+      <aside className="inline-flex h-full flex-col border-r border-[#EADAC1] bg-[#FAF7F2] shadow-inner sm:min-w-72">
         <div className="flex flex-col items-center justify-center gap-3 pt-8 max-sm:hidden">
           <Image
             className="h-14 w-14 rounded-full border border-[#D7C0AE] shadow-sm"

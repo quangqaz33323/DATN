@@ -2,7 +2,7 @@
 
 import { useRouter } from "@/i18n/routing";
 import { useCartStore } from "@/zustand/useCartStore";
-import { PackageIcon, Search, ShoppingCart } from "lucide-react";
+import { PackageIcon, Search, ShoppingCart, Store } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
@@ -97,6 +97,12 @@ const Navbar = ({ locale }: { locale: string }) => {
                     label={t("myOrder")}
                     onClick={() => router.push("orders")}
                   />
+
+                  <UserButton.Action
+                    labelIcon={<Store size={16} />}
+                    label={t("myStore")}
+                    onClick={() => router.push("store")}
+                  />
                 </UserButton.MenuItems>
               </UserButton>
             )}
@@ -114,14 +120,16 @@ const Navbar = ({ locale }: { locale: string }) => {
                       label={t("cart")}
                       onClick={() => router.push("cart")}
                     />
-                  </UserButton.MenuItems>
-                </UserButton>
-                <UserButton>
-                  <UserButton.MenuItems>
+
                     <UserButton.Action
                       labelIcon={<PackageIcon size={16} />}
                       label={t("myOrder")}
                       onClick={() => router.push("orders")}
+                    />
+                    <UserButton.Action
+                      labelIcon={<Store size={16} />}
+                      label={t("myStore")}
+                      onClick={() => router.push("store")}
                     />
                   </UserButton.MenuItems>
                 </UserButton>

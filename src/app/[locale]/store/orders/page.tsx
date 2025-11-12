@@ -84,7 +84,7 @@ export default function StoreOrders() {
       {orders.length === 0 ? (
         <p className="text-center text-lg text-stone-400">Chưa có đơn hàng nào.</p>
       ) : (
-        <div className="max-w-5xl overflow-x-auto rounded-xl border border-amber-200 bg-amber-50/60 shadow-sm">
+        <div className="max-w-5xl overflow-x-auto rounded-xs border border-amber-200 bg-amber-50/60 shadow-sm">
           <table className="w-full text-left text-sm text-stone-700">
             <thead className="bg-amber-100 text-xs tracking-wider text-amber-900 uppercase">
               <tr>
