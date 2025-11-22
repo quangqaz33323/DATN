@@ -185,7 +185,7 @@ export async function GET(request: NextRequest) {
           {
             AND: [
               {
-                paymentMethod: PaymentMethod.COD,
+                paymentMethod: PaymentMethod.STRIPE,
               },
               {
                 isPaid: true,
